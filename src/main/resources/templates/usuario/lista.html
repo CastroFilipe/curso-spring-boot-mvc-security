@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section class="layout-content" layout:fragment="corpo">
+		<main role="main">
+
+		<section class="jumbotron text-center">
+			<img class="d-block mx-auto" th:src="@{/image/spring-security.png}"
+				width="72" height="72">
+			<div class="container">
+				<h1 class="jumbotron-heading">Clínica Spring Security</h1>
+				<p class="lead text-muted">Médicos e Especialistas</p>
+			</div>
+		</section>
+
+		<div class="album py-5 bg-light">
+			<div class="container">
+
+				<div class="row">
+					<div class="col-md-12">
+
+						<h2>Usuários Cadastrados</h2>
+
+						<table id="table-usuarios"
+							class="table table-sm table-striped table-bordered nowrap"
+							style="width: 100%">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Nome de Usuário (email)</th>
+									<th scope="col">Cadastro Ativo</th>
+									<th scope="col">Perfis</th>
+									<th scope="col">Credenciais</th>
+									<th scope="col">Dados Pessoais</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</main>
+		
+	</section>
+	<script	th:src="@{/js/usuario.js(v=${version})}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript"></script>
+</body>
+</html>

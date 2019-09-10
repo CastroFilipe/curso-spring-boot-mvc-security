@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml"
+	  layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section class="layout-content" layout:fragment="corpo">
+		<main role="main">
+
+		<section class="jumbotron text-center">
+			<img class="d-block mx-auto" th:src="@{/image/spring-security.png}"
+				width="72" height="72">
+			<div class="container">
+				<h1 class="jumbotron-heading">Clínica Spring Security</h1>
+				<p class="lead text-muted">Médicos e Especialistas</p>
+			</div>
+		</section>
+
+		<div class="album py-5 bg-light">
+			<div class="container">
+
+				<div class="d-flex justify-content-center">
+					<div class="col-md-8">
+
+						<div th:replace="fragments/alert :: alerta-sucesso"></div>
+
+						<form th:action="@{/u/cadastro/salvar}"
+								th:object="${usuario}" method="POST" class="was-validated">
+							
+							<div class="mb-3">
+								<label for="email">Email</label>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" 
+												id="validationTooltipUsernamePrepend">@</span>
+									</div>
+									<input type="email" class="form-control" id="email"
+										    th:field="*{email}" placeholder="Email"
+										    aria-describedby="validationTooltipUsernamePrepend" required />
+									<div class="invalid-feedback">Email é requerido.</div>
+								</div>
+							</div>
+							
+							<div class="mb-3">
+								<label for="senha">Senha</label> 
+								<input type="password" class="form-control" id="senha" maxlength="6"
+										th:field="*{senha}" placeholder="Insira sua senha de acesso" required />
+								<div class="invalid-feedback">Senha é requerida para confirmar a operação.</div>
+							</div>
+
+							<div class="mb-3">
+								<label for="perfis">Perfil</label>
+								<select id="perfis" class="custom-select" size="4"
+										th:field="*{perfis}" multiple required>
+									<option value="1">Administrador</option>
+									<option value="2">Médico</option>
+									<option value="3">Paciente</option>
+								</select>
+
+								<div class="invalid-feedback">Pelo menos um perfil é requerido.</div>
+							</div>
+							
+							<div class="mb-3">
+								<div class="custom-control custom-switch">
+								  <input type="checkbox" class="custom-control-input" 
+								  			th:field="*{ativo}" id="ativo" 
+								  			th:if="${ativo == true ? 'checked=checked' : ''}" />
+								  <label class="custom-control-label" for="ativo">Cadastro Ativo</label>
+								</div>
+							</div>
+
+							<input type="hidden" th:field="*{id}"> 
+							<div class="form-group row">
+								<div class="col-sm-10">
+									<button type="submit" class="btn btn-primary"
+										data-toggle="tooltip" data-placement="right" title="Salvar">
+										<i class="fas fa-save"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		</main>
+
+	</section>
+	<script	th:src="~{}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript"></script>
+</body>
+</html>

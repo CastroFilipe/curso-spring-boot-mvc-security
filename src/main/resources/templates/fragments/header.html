@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<header th:fragment="cabecalho">
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" th:href="@{/}">Clínica Spring Security</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarCollapse" aria-controls="navbarCollapse"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown"><a
+						class="btn btn-dark dropdown-toggle" href="#" id="dropdown01"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admistrador</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown01">
+							<a class="dropdown-item" th:href="@{/especialidades}">Especialidades</a> 
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/u/novo/cadastro/usuario}">Cadastro de Usuários</a>
+							<a class="dropdown-item" th:href="@{/u/lista}">Lista de Usuários</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown"><a
+						class="btn btn-dark dropdown-toggle" href="#" id="dropdown02"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Médicos</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown02">
+							<a class="dropdown-item" th:href="@{/medicos/dados}">Dados Cadastrais</a>
+							<a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown"><a
+						class="btn btn-dark dropdown-toggle" href="#" id="dropdown03"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pacientes</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown03">
+							<a class="dropdown-item" th:href="@{/pacientes}">Cadastrar Dados</a>
+							<a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
+							<a class="dropdown-item" th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a>
+						</div>
+					</li>					
+				</ul>
+
+				<form class="form-inline mt-2 mt-md-0">
+					<div class="form-check mb-2 mr-sm-2">
+						<a class="btn btn-outline-success my-2 my-sm-0" role="button"
+							th:href="@{/login}">Login</a>
+					</div>
+
+					<div class="form-check mb-2 mr-sm-2">
+						<a class="btn btn-outline-success my-2 my-sm-0" role="button"
+							th:href="@{/u/novo/cadastro}">Cadastrar-se</a>
+					</div>
+				</form>
+
+				<form th:action="@{/logout}" 
+					  method="post"  class="form-inline mt-2 mt-md-0">
+					<div class="btn-group mb-2 mr-sm-2">
+						<button type="button" class="btn btn-light">
+							<i class="fas fa-user"></i> <span class=""
+								>Bob</span>
+						</button>
+						<button type="button"
+							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						</button>
+						<div class="dropdown-menu">
+							<button type="submit" class="dropdown-item">Sair</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</nav>
+	</header>
+</body>
+</html>
