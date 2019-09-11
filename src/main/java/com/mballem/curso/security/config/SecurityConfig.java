@@ -15,21 +15,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//Solicita autenticação para todos os recursos
-		http.authorizeRequests()
+		
+		http.authorizeRequests()//autoriza requisições...
 		.antMatchers("/webjars/**","/css/**","/image/**", "/js/**").permitAll()
 		.antMatchers("/", "/home").permitAll()
-		.anyRequest().authenticated()
-		.and()//define o comportamento de login em caso de sucesso ou falha
-			.formLogin()
-			.loginPage("/login")//define a nossa página de login
-			.defaultSuccessUrl("/", true)
-			.failureUrl("/login-error")
-			.permitAll()//todos devem ter acesso aos endipoints /login e /login-error
+		.anyRequest().authenticated() //Solicita autenticação para todos os outros recursos
+		.and()
+			.formLogin()//editar as propriedades da tela de login
+			.loginPage("/login")//Método usado para indicar qual a URI de acesso ao login. (form action="/login")
+			.defaultSuccessUrl("/", true)//endpoint para o qual será redirecionado em caso de sucesso no login
+			.failureUrl("/login-error")//endpoint para o qual será redirecionado em caso de falha no login
+			.permitAll()//O processo de login é finalizado com o permitAll() para que ele seja público. Todos devem ter acesso aos endipoints /login e /login-error
 		
-		.and()//define o comportamento de logout
-			.logout()
-			.logoutSuccessUrl("/");
+		.and()
+			.logout()//define o comportamento de logout
+			.logoutSuccessUrl("/");//endpoint para o qual será redirecionado quando fizer logout
+		
+		//http.csrf().disable();//usar apenas em aplicações RESTFUL
 	}
 
 }
