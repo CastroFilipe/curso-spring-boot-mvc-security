@@ -27,6 +27,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()//autoriza requisições...
 		.antMatchers("/webjars/**","/css/**","/image/**", "/js/**").permitAll()
 		.antMatchers("/", "/home").permitAll()
+		
+		//acessos privados para perfil de ADMIN
+		.antMatchers("/u/**").hasAuthority("ADMIN")//libera o endpoint /u/** para usuários com o perfil de ADMIN. Assim as telas de alguns cadastros serão visíveis apenas para admins.
+		
+		//acessos privados para perfil MEDICO
+		.antMatchers("/medicos/**").hasAuthority("MEDICO")//Acessos que serão exclusivos do perfil medico
+		
 		.anyRequest().authenticated() //Solicita autenticação para todos os outros recursos
 		.and()
 			.formLogin()//editar as propriedades da tela de login
