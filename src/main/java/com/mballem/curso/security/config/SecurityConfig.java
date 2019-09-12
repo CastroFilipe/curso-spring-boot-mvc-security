@@ -44,7 +44,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		.and()
 			.logout()//define o comportamento de logout
-			.logoutSuccessUrl("/");//endpoint para o qual será redirecionado quando fizer logout
+			.logoutSuccessUrl("/")//endpoint para o qual será redirecionado quando fizer logout
+		
+		//instruções para captura de exceção quando houver acesso negado
+		.and()
+			.exceptionHandling()//captura exceções
+			.accessDeniedPage("/acesso-negado")//endpoint do controler que fará o tratamento da exceção capturada do tipo AccessDeniedException
+		;
 		
 		//http.csrf().disable();//usar apenas em aplicações RESTFUL
 	}
