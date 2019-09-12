@@ -22,6 +22,9 @@ import com.mballem.curso.security.repository.UsuarioRepository;
  * argumento username. Na implementação do método, uma busca no banco de dados será feita para retornar o Usuario correspondente. Algumas informações 
  * serão passadas ao SpringSecurity através do objeto User retornado. Assim o springSecurity fará os testes na senha e se o usuário possuí privilégios
  * para acessar determinada parte na aplicação.
+ * 
+ * O Spring Security precisa apenas que criemos um método de consulta pelo login do usuário, sem que precisemos testar a senha. A senha será testada 
+ * pelo próprio Spring Security
  * */
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -34,6 +37,7 @@ public class UsuarioService implements UserDetailsService {
 		return usuarioRepository.findByEmail(email);
 	}
 
+	@Transactional(readOnly = true)//necessário para evitar exceção LazyInitializationException devido ao método getPerfis()
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
