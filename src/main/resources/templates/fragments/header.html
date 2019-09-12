@@ -47,7 +47,7 @@
 					</li>					
 				</ul>
 
-				<form class="form-inline mt-2 mt-md-0">
+				<form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
 					<div class="form-check mb-2 mr-sm-2">
 						<a class="btn btn-outline-success my-2 my-sm-0" role="button"
 							th:href="@{/login}">Login</a>
@@ -60,11 +60,11 @@
 				</form>
 
 				<form th:action="@{/logout}" 
-					  method="post"  class="form-inline mt-2 mt-md-0">
+					  method="post"  class="form-inline mt-2 mt-md-0" sec:authorize="isAuthenticated()">
 					<div class="btn-group mb-2 mr-sm-2">
 						<button type="button" class="btn btn-light">
 							<i class="fas fa-user"></i> <span class=""
-								>Bob</span>
+								sec:authentication="name">Bob</span>
 						</button>
 						<button type="button"
 							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
