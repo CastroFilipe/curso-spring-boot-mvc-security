@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,6 +83,18 @@ public class UsuarioService implements UserDetailsService {
 				? usuarioRepository.findAll(datatables.getPageable()) //se vázio, busca todos com o objeto page default presente em datatables
 				: usuarioRepository.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());//se não buscará por email ou perfil, de acordo com o que o usuário digitou
 		return datatables.getResponse(page);
+	}
+
+	/**
+	 * Método que salva um novo usuário. Antes de salvar, a senha será criptografada.
+	 * */
+	@Transactional(readOnly = false)
+	public void salvarUsuario(Usuario usuario) {
+		//usa a criptografia Bcrypt para codificar a senha
+		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
+		usuario.setSenha(crypt);
+		
+		usuarioRepository.save(usuario);	
 	}
 
 }
