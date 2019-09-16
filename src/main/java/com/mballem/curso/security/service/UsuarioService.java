@@ -1,8 +1,12 @@
 package com.mballem.curso.security.service;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mballem.curso.security.datatables.Datatables;
+import com.mballem.curso.security.datatables.DatatablesColunas;
 import com.mballem.curso.security.domain.Perfil;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.repository.UsuarioRepository;
@@ -31,6 +37,9 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private Datatables datatables;
 
 	@Transactional(readOnly = true)
 	public Usuario buscarPorEmail(String email) {
@@ -63,4 +72,16 @@ public class UsuarioService implements UserDetailsService {
 
 		return authorities;
 	}
+
+	@Transactional(readOnly = true)
+	public Map<String, Object> buscarTodos(HttpServletRequest request) {
+		datatables.setRequest(request);
+		datatables.setColunas(DatatablesColunas.USUARIOS);
+		
+		Page<Usuario> page = datatables.getSearch().isEmpty()//testa se está vázio. Ou seja se o usuário digitou algo na caixa de pesquisa
+				? usuarioRepository.findAll(datatables.getPageable()) //se vázio, busca todos com o objeto page default presente em datatables
+				: usuarioRepository.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());//se não buscará por email ou perfil, de acordo com o que o usuário digitou
+		return datatables.getResponse(page);
+	}
+
 }
