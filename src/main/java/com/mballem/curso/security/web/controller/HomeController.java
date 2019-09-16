@@ -43,6 +43,6 @@ public class HomeController {
 		model.addAttribute("error", "Acesso negado");
 		model.addAttribute("message", "Sem permissão para acessar a área");
 		
-		return "error";
+		return "error";//abrirá a página de erro.html
 	}	
 }

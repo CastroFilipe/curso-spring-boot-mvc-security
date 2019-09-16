@@ -13,6 +13,7 @@ public class EspecialidadeService {
 	@Autowired
 	private EspecialidadeRepository especialidadeRepository;
 	
+	//salva uma especialidade
 	@Transactional(readOnly = false)
 	public void salvar(Especialidade especialidade) {
 		especialidadeRepository.save(especialidade);

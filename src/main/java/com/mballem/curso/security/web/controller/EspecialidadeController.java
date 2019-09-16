@@ -23,10 +23,11 @@ public class EspecialidadeController {
 		return "especialidade/especialidade";
 	}
 	
+	//metodo que recebe o submite do formulario para salvar uma especialidade
 	@PostMapping("/salvar")
 	public String salvar(Especialidade especialidade, RedirectAttributes attr) {
-		especialidadeService.salvar(especialidade);
-		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
-		return "redirect:/especialidades";
+		especialidadeService.salvar(especialidade);//salva a especialidade
+		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");//envia uma mensagem de alerta em caso de sucesso
+		return "redirect:/especialidades"; //redireciona para a rela de cadastro
 	}
 }
