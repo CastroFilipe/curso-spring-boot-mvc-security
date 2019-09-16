@@ -1,6 +1,9 @@
 package com.mballem.curso.security.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,5 +32,12 @@ public class EspecialidadeController {
 		especialidadeService.salvar(especialidade);//salva a especialidade
 		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");//envia uma mensagem de alerta em caso de sucesso
 		return "redirect:/especialidades"; //redireciona para a rela de cadastro
+	}
+	
+	//método para listar as especialidades na tabela presente na página especialidade/especialidade.html
+	@GetMapping("datatables/server")
+	public ResponseEntity<?> getEspecialidades(HttpServletRequest request) {	
+		
+		return ResponseEntity.ok(especialidadeService.buscarEspecialidades(request));
 	}
 }
