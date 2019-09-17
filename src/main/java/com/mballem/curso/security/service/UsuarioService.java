@@ -106,4 +106,16 @@ public class UsuarioService implements UserDetailsService {
 		return usuarioRepository.findById(id).get();
 	}
 
+	/**
+	 * Método que busca um Usuario por ir e Perfis
+	 * 
+	 * @param usuarioId id do Usuario
+	 * @param perfisId ids dos perfis que o Usuario possui.
+	 * */
+	@Transactional(readOnly = true)
+	public Usuario buscarPorIdEPerfis(Long usuarioId, Long[] perfisId) {
+		
+		return usuarioRepository.findByIdAndPerfis(usuarioId, perfisId);
+	}
+
 }

@@ -18,4 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	//Busca por email ou perfil.
 	@Query("SELECT DISTINCT u From Usuario u INNER JOIN u.perfis p WHERE u.email LIKE :search% OR p.desc LIKE :search%")
 	Page<Usuario> findByEmailOrPerfil(@Param("search") String search, Pageable pageable);
+
+	@Query("SELECT DISTINCT u FROM Usuario u INNER JOIN u.perfis p WHERE u.id = :usuarioId AND p.id IN :perfisId")
+	Usuario findByIdAndPerfis(Long usuarioId, Long[] perfisId);
 }

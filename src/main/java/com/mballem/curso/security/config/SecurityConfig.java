@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.service.UsuarioService;
 
 /**
@@ -18,6 +19,11 @@ import com.mballem.curso.security.service.UsuarioService;
 //WebSecurityConfigurerAdapter possui métodos de configurações prontos e que serão sobrescritos de acordo com a necessidade.
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+	//constantes usadas para facilitar.
+	private static final String ADMIN = PerfilTipo.ADMIN.getDesc();
+	private static final String MEDICO = PerfilTipo.MEDICO.getDesc();
+	private static final String PACIENTE = PerfilTipo.PACIENTE.getDesc();
+	
 	@Autowired
 	private UsuarioService usuarioService;
 	
@@ -25,14 +31,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()//autoriza requisições...
-		.antMatchers("/webjars/**","/css/**","/image/**", "/js/**").permitAll()
-		.antMatchers("/", "/home").permitAll()
+		
+		//acessos públicos liberados para todos
+		.antMatchers("/webjars/**","/css/**","/image/**", "/js/**").permitAll()//libera os recursos de css, imagens e js para todos que visualizam as páginas.
+		.antMatchers("/", "/home").permitAll()//libera o acesso público a página /home
 		
 		//acessos privados para perfil de ADMIN
-		.antMatchers("/u/**").hasAuthority("ADMIN")//libera o endpoint /u/** para usuários com o perfil de ADMIN. Assim as telas de alguns cadastros serão visíveis apenas para admins.
+		.antMatchers("/u/**").hasAuthority(ADMIN)//libera o endpoint /u/** para usuários com o perfil de ADMIN. Assim as telas de alguns cadastros serão visíveis apenas para admins.
 		
 		//acessos privados para perfil MEDICO
-		.antMatchers("/medicos/**").hasAuthority("MEDICO")//Acessos que serão exclusivos do perfil medico
+		.antMatchers("/medicos/**").hasAuthority(MEDICO)//Acessos que serão exclusivos do perfil medico
+		
+		//acessos privados para perfil PACIENTE
+		.antMatchers("/pacientes/**").hasAuthority(PACIENTE)
+		
+		//acessos privados para o endpoint /especialidades
+		.antMatchers("/especialidades/**").hasAuthority(ADMIN)
 		
 		.anyRequest().authenticated() //Solicita autenticação para todos os outros recursos
 		.and()
@@ -66,7 +80,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.userDetailsService(usuarioService)//O parametro é uma classe que implementa UserDetailsService
 		.passwordEncoder(new BCryptPasswordEncoder());//informa o tipo de criptografia que será usada pela aplicação no momento de checar as credencias de login(senha)
 	}
-	
-	
-
 }
