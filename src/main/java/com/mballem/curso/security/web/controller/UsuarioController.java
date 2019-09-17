@@ -5,11 +5,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mballem.curso.security.domain.Perfil;
@@ -68,10 +71,35 @@ public class UsuarioController {
 		} 
 		
 		else { //Se todos os testes acima forem falsos, o cadastro poderá ser feito
-			usuarioService.salvarUsuario(usuario);
-			attr.addFlashAttribute("sucesso", "Usuário salvo com sucesso");
+			try {
+				usuarioService.salvarUsuario(usuario);
+				attr.addFlashAttribute("sucesso", "Usuário salvo com sucesso");
+			} catch(DataIntegrityViolationException ex) {
+				attr.addFlashAttribute("falha", "Email já cadastrado");
+			}
 		}
 		
 		return "redirect:/u/novo/cadastro/usuario";//redireciona para a próprio formulário de cadastro
+	}
+	
+	/**
+	 * Método que será chamado pelo botão editar presente na tela de lista de usuários cadastrados.
+	 * O método não fará a edição do usuário, apenas buscará as informações para serem exibidas na tela de cadastro. 
+	 * Com as informações na tela de cadastro, o usuario poderá ser editado e salvo com o método salvarUsuarios().
+	 * O ModelAndView envia as informações do usuario a ser editado para a tela de cadastro(pre-edição)
+	 * 
+	 * @param id o id do usuário a ser editado
+	 * @return ModelAndView o objeto ModelAndView é semelhante ao ResponseEntity. essa classe é utilizada para especificar a 
+	 * view que será renderizada e quais os dados ela utilizará para isso.
+	 * */
+	@GetMapping("/editar/credenciais/usuario/{id}")
+	public ModelAndView preEditarCredenciais(@PathVariable("id") Long id) {	
+		
+		/**
+		 * O primeiro parametro indica a página que abrirá como resposta.
+		 * usuario é a variável que enviará os dados do usuário para a página de cadastro
+		 * o terceiro parametro é o objeto contando os dados do usuario
+		 * */
+		return new ModelAndView("usuario/cadastro", "usuario", usuarioService.buscarPorId(id));
 	}
 }

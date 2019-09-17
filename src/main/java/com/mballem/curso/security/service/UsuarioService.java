@@ -97,4 +97,13 @@ public class UsuarioService implements UserDetailsService {
 		usuarioRepository.save(usuario);	
 	}
 
+	/**
+	 * Método que busca um usuario por id
+	 * */
+	@Transactional(readOnly = true)
+	public Usuario buscarPorId(Long id) {
+
+		return usuarioRepository.findById(id).get();
+	}
+
 }
