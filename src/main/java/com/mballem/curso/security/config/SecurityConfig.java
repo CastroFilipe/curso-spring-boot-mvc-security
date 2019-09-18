@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/u/**").hasAuthority(ADMIN)//libera o endpoint /u/** para usuários com o perfil de ADMIN. Assim as telas de alguns cadastros serão visíveis apenas para admins.
 		
 		//acessos privados para perfil MEDICO
+		.antMatchers("/medicos/dados", "/medicos/editar", "/medicos/salvar").hasAnyAuthority(MEDICO, ADMIN)//libera os endpoints para MEDICO e ADMIN
 		.antMatchers("/medicos/**").hasAuthority(MEDICO)//Acessos que serão exclusivos do perfil medico
 		
 		//acessos privados para perfil PACIENTE
