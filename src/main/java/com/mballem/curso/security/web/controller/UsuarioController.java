@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mballem.curso.security.domain.Medico;
 import com.mballem.curso.security.domain.Perfil;
 import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.domain.Usuario;
+import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.UsuarioService;
 
 @Controller
@@ -26,6 +28,9 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioService usuarioService;
+	
+	@Autowired
+	MedicoService medicoService;
 
 	// abrir pagina de dados pessoais de medicos
 	@GetMapping({ "/novo/cadastro/usuario" })
@@ -133,7 +138,13 @@ public class UsuarioController {
 
 		// Se um dos perfis do Usuario que está acessando o método for do tipo MEDICO
 		else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
-			return new ModelAndView("especialidade/especialidade");
+			
+			//
+			Medico medico = medicoService.buscarPorUsuarioId(usuarioId);
+			return medico.hasNotId() 
+					? new ModelAndView("medico/cadastro", "medico", new Medico(new Usuario(usuarioId)))
+					: new ModelAndView("medico/cadastro", "medico", medico);
+
 		}
 
 		// Se o perfil do Usuario que está acessando o método for PACIENTE
