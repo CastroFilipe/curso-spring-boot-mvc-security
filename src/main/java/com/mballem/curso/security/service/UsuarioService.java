@@ -111,11 +111,12 @@ public class UsuarioService implements UserDetailsService {
 	 * 
 	 * @param usuarioId id do Usuario
 	 * @param perfisId ids dos perfis que o Usuario possui.
+	 * @throws UsernameNotFoundException se o usuário não for encontrado
 	 * */
 	@Transactional(readOnly = true)
 	public Usuario buscarPorIdEPerfis(Long usuarioId, Long[] perfisId) {
 		
-		return usuarioRepository.findByIdAndPerfis(usuarioId, perfisId);
+		return usuarioRepository.findByIdAndPerfis(usuarioId, perfisId).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 	}
 
 }
