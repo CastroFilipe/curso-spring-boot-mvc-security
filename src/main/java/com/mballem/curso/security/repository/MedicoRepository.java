@@ -14,4 +14,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long>{
 
 	@Query("SELECT m FROM Medico m WHERE m.usuario.id = :id")
 	Optional<Medico> findByUsuarioId(@Param("id") Long id);
+
+	@Query("SELECT m FROM Medico m WHERE m.usuario.email LIKE :email")
+	Optional<Medico> findByUsuarioEmail(String email);
 }
