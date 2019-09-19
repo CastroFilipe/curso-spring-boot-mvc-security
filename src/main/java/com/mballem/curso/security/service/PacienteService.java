@@ -17,4 +17,9 @@ public class PacienteService {
 	public Paciente buscarPorUsuarioEmail(String email) {
 		return pacienteRepository.findByUsuarioEmail(email).orElse(new Paciente());
 	}
+
+	@Transactional(readOnly = false)
+	public void salvar(Paciente paciente) {
+		pacienteRepository.save(paciente);
+	}
 }

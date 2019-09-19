@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mballem.curso.security.domain.Paciente;
@@ -35,4 +36,22 @@ public class PacienteController {
 		model.addAttribute("paciente", paciente);
 		return "paciente/cadastro";
 	}
+	
+	// salvar o form de dados pessoais do paciente com verificacao de senha
+		@PostMapping("/salvar")
+		public String salvar(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
+			
+			//busca o usuario no banco de dados para testar a senha cadastrada com a senha que veio do formulario
+			Usuario u = usuarioService.buscarPorEmail(user.getUsername());
+			
+			//se as senhas são iguais
+			if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), u.getSenha())) {
+				paciente.setUsuario(u);
+				pacienteService.salvar(paciente);
+				model.addAttribute("sucesso", "Seus dados foram inseridos com sucesso.");
+			} else {
+				model.addAttribute("falha", "Sua senha não confere, tente novamente.");
+			}
+			return "paciente/cadastro";
+		}	
 }
