@@ -119,4 +119,19 @@ public class UsuarioService implements UserDetailsService {
 		return usuarioRepository.findByIdAndPerfis(usuarioId, perfisId).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 	}
 
+	/**
+	 * Método que verifica se as senhas são iguais
+	 * 
+	 * */
+	public static boolean isSenhaCorreta(String senhaDigitada, String senhaArmazenada) {
+		//Método que compara duas senhas, mesmo que uma delas esteja criptografada
+		return new BCryptPasswordEncoder().matches(senhaDigitada, senhaArmazenada);
+	}
+
+	@Transactional(readOnly = false)
+	public void alterarSenha(Usuario usuario, String senha) {
+		usuario.setSenha(new BCryptPasswordEncoder().encode(senha));
+		usuarioRepository.save(usuario);
+	}
+
 }
