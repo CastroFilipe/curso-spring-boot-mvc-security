@@ -47,7 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/pacientes/**").hasAuthority(PACIENTE)
 		
 		//acessos privados para o endpoint /especialidades
+		.antMatchers("/especialidades/titulo").hasAnyAuthority(MEDICO, ADMIN)
 		.antMatchers("/especialidades/**").hasAuthority(ADMIN)
+		
 		
 		.anyRequest().authenticated() //Solicita autenticação para todos os outros recursos
 		.and()
