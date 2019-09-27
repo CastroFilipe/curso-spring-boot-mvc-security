@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Clínica Spring Security ::: Login</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="clínica médica com agendamento de consultas online" />
+<link rel="icon" th:href="@{/image/favicon.ico}" />
+<!-- Icons fontawesome -->
+<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css(v=${version}) }" rel="stylesheet" />
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+<!-- Custom styles for this template -->
+<link th:href="@{/css/style-login.css(v=${version})}" rel="stylesheet" />
+<script th:src="@{/webjars/jquery/jquery.min.js(v=${version}) }"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js(v=${version}) }"></script>
+</head>
+<body>	
+	<form class="form-signin was-validated" method="POST" 
+		th:action="@{/u/cadastro/paciente/salvar}" th:object="${usuario}">		
+		<div class="text-center mb-4">
+			<img class="mb-4" th:src="@{/image/spring-security.png}" alt=""
+				width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Clínica Spring Security</h1>
+
+			<p class="font-weight-lighter">Seja bem-vindo.</p>
+			<p class="text-muted">Crie seu cadastro aqui!</p>
+		</div>
+		
+		<div th:if="${#fields.hasAnyErrors()}">	
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				<div th:each="error : ${#fields.detailedErrors()}">
+				  <i class="oi oi-warning"></i>
+					<span th:text="${error.message}"></span>
+				</div>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>	
+		<div class="form-label-group">
+			<input type="email" id="inputEmail" class="form-control" placeholder="e-mail" 
+				th:field="*{email}" required autofocus />
+			<label for="inputEmail">Email</label>
+			<div class="invalid-feedback">
+				Use seu email como login.
+			</div>
+		</div>
+
+		<div class="form-label-group">
+			<input type="password" id="inputPassword" class="form-control"
+				placeholder="Password" th:field="*{senha}" required /> 
+			<label for="inputPassword">Senha</label>
+			<div class="invalid-feedback">Digite uma senha.</div>	
+		</div>
+
+		<button class="btn btn-lg btn-info btn-block" type="submit">Confirmar</button>
+		<hr>
+		<nav class="nav nav-pills flex-column flex-sm-row">
+			<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/}">
+				<i class="fas fa-home"></i>&nbsp;Home</a>
+		</nav>
+		<p class="mt-5 mb-3 text-muted text-center">Clínica Spring
+			Security&copy; 2019</p>
+	</form>
+</body>
+</html>

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -211,5 +212,38 @@ public class UsuarioController {
     	
     	attr.addFlashAttribute("sucesso", "Senha alterada com sucesso.");
     	return "redirect:/u/editar/senha";
+    }
+    
+    //retorna a página de cadastro de um novo paciente.
+    @GetMapping("/novo/cadastro")
+    public String novoCadastro() {
+    	
+    	return "cadastrar-se";
+    }
+    
+    //Página de resposta em caso de sucesso do cadastro realizado
+    @GetMapping("/cadastro/realizado")
+    public String novoRealizado() {
+    	
+    	return "fragments/mensagem";
+    }
+    
+    /**
+     * recebe as informações do form da página cadastra-se para fazer o cadastro de um novo usuario/paciente
+     * 
+     * @param result objeto BindingResult usado para validações no backend
+     * 
+     * */
+    @PostMapping("/cadastro/paciente/salvar")
+    public String salvarCadastroPaciente(Usuario usuario, BindingResult result) {
+    	
+    	try {
+    		usuarioService.salvarCadastroPaciente(usuario);
+		} catch (DataIntegrityViolationException e) {//exceção lançada em tentativa de adicionar um usuário já existente no banco de dados.
+			result.reject("email", "O email já foi cadastrado");
+			return "cadastrar-se";
+		}
+    	
+    	return "redirect:/u/cadastro/realizado";
     }
 }

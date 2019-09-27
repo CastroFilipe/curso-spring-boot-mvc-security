@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//acessos públicos liberados para todos
 		.antMatchers("/webjars/**","/css/**","/image/**", "/js/**").permitAll()//libera os recursos de css, imagens e js para todos que visualizam as páginas.
 		.antMatchers("/", "/home").permitAll()//libera o acesso público a página /home
+		.antMatchers("/u/novo/cadastro", "/u/cadastro/realizado", "/u/cadastro/paciente/salvar").permitAll()//endipoints para o acesso a página e metodos de cadastro de novo usuario
 		
 		//acessos privados para perfil de ADMIN
 		.antMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(MEDICO,PACIENTE)
