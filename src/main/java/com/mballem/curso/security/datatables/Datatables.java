@@ -10,7 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-
+/**
+ * Uma classe auxiliar para organizar, em tabelas 'Datatables', algumas informações selecionadas do banco de dados.
+ * */
 @Component
 public class Datatables {
 	

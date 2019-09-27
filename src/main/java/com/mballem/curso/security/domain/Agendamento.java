@@ -27,6 +27,10 @@ public class Agendamento extends AbstractEntity {
 	@JoinColumn(name="id_horario")
 	private Horario horario; 
 
+	/*
+	 * Na aplicação a data da consulta é do tipo LocalDate. No banco de dados a data será do tipo Date.
+	 * DateTimeFormat formata a data para o padrão escolhido
+	 * */
 	@Column(name="data_consulta")
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dataConsulta;

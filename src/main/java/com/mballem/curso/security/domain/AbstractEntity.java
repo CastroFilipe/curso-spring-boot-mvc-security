@@ -4,8 +4,13 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+/**
+ * Superclasse de todas as classes de entidade. 
+ * Seu uso traz uma economia de linhas de códigos nas entidades já que o id e métodos comuns serão herdados dessa classe..
+ * 
+ * */
 @SuppressWarnings("serial")
-@MappedSuperclass
+@MappedSuperclass //Designa uma classe cujas informações de mapeamento são aplicadas às entidades que herdam dela. Uma superclasse mapeada não possui uma tabela separada definida para ela.
 public abstract class AbstractEntity implements Serializable  {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)

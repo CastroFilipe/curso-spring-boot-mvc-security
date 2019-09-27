@@ -1,0 +1,5 @@
+http.authorizeRequests().anyRequest().authenticated() //Solicita autenticação para todos os recursos da aplicação
+
+http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/teste").hasAuthority(ADMIN)//apenas usuarios com perfil ADMIN podem enviar um DELETE para a URI /teste
+
+http.authorizeRequests().antMatchers("/home").permitAll()//libera a página Home ao acesso público. Util para permitir que usuários não logados na aplicação acessem a págiana e visualizem o botão de login

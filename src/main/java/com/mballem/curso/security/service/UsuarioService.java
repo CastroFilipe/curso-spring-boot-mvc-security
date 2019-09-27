@@ -43,11 +43,23 @@ public class UsuarioService implements UserDetailsService {
 	@Autowired
 	private Datatables datatables;
 
+	/**
+	 * Método que busca um usuario pelo email. O username de um Usuario é o email
+	 * */
 	@Transactional(readOnly = true)
 	public Usuario buscarPorEmail(String email) {
 		return usuarioRepository.findByEmail(email);
 	}
 
+	/**
+	 * Método presente na interface UserDetailsService. O método será chamado, de forma automatica, pelo SpringSecurity quando uma tentativa de login na aplicação 
+	 * for realizada. Dentro do método o parametro username(que é o email do usuário que estará tentando fazer o login) será utilizado para fazer uma busca no banco
+	 * de dados. Se o Usuario não for encontrado, será lançada a exceção UsernameNotFoundException e a tentativa de login será negada; caso contrário será retornado 
+	 * o objeto User, um objeto que implementa a interface UserDetails. O objeto User conterá as informações necessárias para que o Spring Secutiry valide a senha do
+	 * usuário e autorize a tentativa de login.
+	 * 
+	 * @param username o nome de usuário digitado pelo usuário no formulário de login
+	 * */
 	@Transactional(readOnly = true)//necessário para evitar exceção LazyInitializationException devido ao método getPerfis()
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -55,15 +67,20 @@ public class UsuarioService implements UserDetailsService {
 		//faz a consulta no banco de dados pelo username
 		Usuario usuario = buscarPorEmail(username);
 		
-		//parametros: Email, senha, perfis
-		return new User(// User é uma classe do Spring que implementa UserDetails
+		//
+		return new User(// User é uma classe do Spring que implementa UserDetails. parametros do construtor: Email, senha, array de perfis
 				usuario.getEmail(), 
-				usuario.getSenha(),
+				usuario.getSenha(),//senha criptografada vinda do usuario salvo no banco
 				AuthorityUtils.createAuthorityList(convertPerfisToString(usuario.getPerfis()))
 		);
 	}
 
-	// Método auxiliar que converte uma Lista de Perfis e um array de String.
+	/** 
+	 * Método auxiliar que converte uma Lista de Perfis em um array de String.
+	 * 
+	 * @param perfis uma Lista de Objetos Perfil
+	 * @return um array com a descrição de cada perfil presente na lista
+	 * */
 	private String[] convertPerfisToString(List<Perfil> perfis) {
 		String[] authorities = new String[perfis.size()];
 

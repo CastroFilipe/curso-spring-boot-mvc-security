@@ -1,5 +1,8 @@
 package com.mballem.curso.security.datatables;
 
+/**
+ * Classe auxiliar que contém constantes com o nome de algumas colunas 
+ * */
 public class DatatablesColunas {
 
 	public static final String[] ESPECIALIDADES = {"id", "titulo"};

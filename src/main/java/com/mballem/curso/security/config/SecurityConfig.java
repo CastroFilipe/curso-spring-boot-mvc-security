@@ -12,11 +12,15 @@ import com.mballem.curso.security.service.UsuarioService;
 
 /**
  * Arquivo de configuração que sobreescreve a configuração default do spring security.
+ * Ao adicionar a dependencia do SpringSecurity propriedades padrões de segurança são implementadas no projeto. Essas propriedades podem ser sobrescritas na classe
+ * SecurityConfig que extende WebSecurityConfigurerAdapter.
  * 
  * */
-//Anotação usada para informar ao Springframework que essa é uma classe de configuração do springsecurity
+/*
+ * @EnableWebSecurity Anotação usada para informar ao Springframework que essa é uma classe de configuração do springsecurity.
+ * A super classe WebSecurityConfigurerAdapter possui métodos de configurações prontos e que serão sobrescritos de acordo com a necessidade.
+ */
 @EnableWebSecurity
-//WebSecurityConfigurerAdapter possui métodos de configurações prontos e que serão sobrescritos de acordo com a necessidade.
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	//constantes usadas para facilitar.
@@ -27,11 +31,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	/**
+	 * Método configure com as configurações de segurança e acesso.
+	 * No método configure() usamos a variável http, de HttpSecurity, para definir as regras de acessos. Entre essas regras devemos tornar 
+	 * público o acesso aos arquivos estáticos da aplicação. Esses arquivos acabam sendo bloqueados pelo Spring Security quando iniciamos nossa
+	 * própria configuração.
+	 * */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.authorizeRequests()//autoriza requisições...
-		
+		http.authorizeRequests()//autoriza as seguintes requisições...
+
 		//acessos públicos liberados para todos
 		.antMatchers("/webjars/**","/css/**","/image/**", "/js/**").permitAll()//libera os recursos de css, imagens e js para todos que visualizam as páginas.
 		.antMatchers("/", "/home").permitAll()//libera o acesso público a página /home
@@ -52,14 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/especialidades/titulo").hasAnyAuthority(MEDICO, ADMIN)
 		.antMatchers("/especialidades/**").hasAuthority(ADMIN)
 		
+		.anyRequest().authenticated() //Esse método informa que qualquer solicitação a aplicação deve estar autenticada, a menos é claro, aquelas que foram liberadas como públicas.
 		
-		.anyRequest().authenticated() //Solicita autenticação para todos os outros recursos
-		.and()
-			.formLogin()//editar as propriedades da tela de login
-			.loginPage("/login")//Método usado para indicar qual a URI de acesso ao login. (form action="/login")
+		
+		.and()//serve para concatenar instruções de diferentes tipos
+			.formLogin()//O método indica que, a partir daqui, as configurações de login serão editadas
+			.loginPage("/login")//Método usado para indicar qual a URI de acesso ao login. Essa URI deve ser a action do formulário de autenticação (form action="/login")
 			.defaultSuccessUrl("/", true)//endpoint para o qual será redirecionado em caso de sucesso no login
 			.failureUrl("/login-error")//endpoint para o qual será redirecionado em caso de falha no login
-			.permitAll()//O processo de login é finalizado com o permitAll() para que ele seja público. Todos devem ter acesso aos endipoints /login e /login-error
+			.permitAll()//O processo de login é finalizado com o permitAll() para que ele seja público. Logo, mesmo usuários não logados poderão ver a tela de login. Todos devem ter acesso aos endipoints /login e /login-error
 		
 		.and()
 			.logout()//define o comportamento de logout
@@ -74,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//http.csrf().disable();//usar apenas em aplicações RESTFUL
 	}
 
-	/*
+	/**
 	 * Método que faz a configuração para o uso de criptografia nas senhas.
 	 * As senhas no banco de dados serão salvas de forma criptografada, esse método será utilizado de forma automática pelo springsecurity sempre 
 	 * que o mesmo precisar checar credenciais e validar senhas na classe UserService.

@@ -15,7 +15,11 @@ public class Paciente extends AbstractEntity {
 
 	@Column(name = "nome", unique = true, nullable = false)
 	private String nome;
-
+	
+	/*
+	 * Na aplicação dtInscricao é do tipo LocalDate. No banco de dados a data será do tipo Date.
+	 * @DateTimeFormat formata a data para o padrão escolhido
+	 * */
 	@Column(name = "data_nascimento", nullable = false)
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dtNascimento;

@@ -22,6 +22,10 @@ public class Medico extends AbstractEntity {
 	@Column(name = "crm", unique = true, nullable = false)
 	private Integer crm;
 	
+	/*
+	 * Na aplicação dtInscricao é do tipo LocalDate. No banco de dados a data será do tipo Date.
+	 * @DateTimeFormat formata a data para o padrão escolhido
+	 * */
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column(name = "data_inscricao", nullable = false)
 	private LocalDate dtInscricao;
@@ -41,6 +45,9 @@ public class Medico extends AbstractEntity {
 	@OneToMany(mappedBy = "medico")
 	private List<Agendamento> agendamentos;
 	
+	/*
+	 * Na exclusão de um Medico do Banco de dados, seu Usuario será também excluído, devido ao atributo CascadeType.REMOVE
+	 * */
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;

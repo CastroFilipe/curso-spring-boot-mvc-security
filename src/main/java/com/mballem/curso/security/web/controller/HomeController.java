@@ -15,13 +15,13 @@ public class HomeController {
 		return "home";
 	}
 	
-	// abrir pagina login
+	// Método para abrir pagina login
 	@GetMapping({"/login"})
 	public String login() {
 		return "login";
 	}
 	
-	// login inválido
+	// Método em caso de login inválido
 	@GetMapping({"/login-error"})
 	public String loginError(ModelMap model) {
 		model.addAttribute("alerta", "erro");

@@ -281,4 +281,14 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+/*Insere o usuario administrador*/
+INSERT INTO demo_security.usuarios
+(ativo, email, senha, codigo_verificador)
+VALUES(1, 'admin@clinica.com.br', '$2a$10$tBVUEXD9outKvx5tO8LUQOEhCX2hPaRmtfx/WuMMjA4tGI6RLQYk.', '');
+
+/*Adiciona o perfil ADMIN para o administrador*/
+INSERT INTO usuarios_tem_perfis
+(usuario_id, perfil_id)
+VALUES(1, 1);
+
 -- Dump completed on 2019-05-06 15:00:05
