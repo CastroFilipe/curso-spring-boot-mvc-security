@@ -31,7 +31,12 @@ public class EspecialidadeController {
 		return "especialidade/especialidade";
 	}
 	
-	//metodo que recebe o submite do formulario para salvar uma especialidade
+	/**
+	 * metodo que recebe o submite do formulario para salvar uma especialidade
+	 * 
+	 * @param especialidade objeto especialidade a ser salvo.
+	 * @param attr objeto para o redirecionamento de dados 
+	 * */
 	@PostMapping("/salvar")
 	public String salvar(Especialidade especialidade, RedirectAttributes attr) {
 		especialidadeService.salvar(especialidade);//salva a especialidade
@@ -39,14 +44,25 @@ public class EspecialidadeController {
 		return "redirect:/especialidades"; //redireciona para a rela de cadastro
 	}
 	
-	//método para listar as especialidades na tabela presente na página especialidade/especialidade.html
+	/**
+	 * Método para listar as especialidades na tabela presente na página especialidade/especialidade.html
+	 * 
+	 * @param request os parâmetros de solicitação do cliente.
+	 * 
+	 * */
 	@GetMapping("/datatables/server")
 	public ResponseEntity<?> getEspecialidades(HttpServletRequest request) {	
 		
 		return ResponseEntity.ok(especialidadeService.buscarEspecialidades(request));
 	}
 	
-	//metodo que faz a busca na especialidade que se quer editar
+	/**
+	 * metodo que recebe a requisição quando o botão de editar de uma especialidade receber um click. 
+	 * Após o evento, Faz a busca na especialidade que se quer editar.
+	 * 
+	 * @param id o id da especialidade a ser editada
+	 * 
+	 */
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {	
 		model.addAttribute("especialidade", especialidadeService.buscarPorId(id));//adiciona as informações da especialidade nos campos para edição
@@ -54,6 +70,12 @@ public class EspecialidadeController {
 		return "especialidade/especialidade";
 	}
 	
+	/**
+	 * Faz a exclusão de uma especialidade
+	 * 
+	 * @param id o id da especialidade a ser excluída
+	 * @param attr objeto para o redirecionamento de dados 
+	 * */
 	@GetMapping("/excluir/{id}")
 	public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {	
 		

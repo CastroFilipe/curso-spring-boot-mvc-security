@@ -36,7 +36,7 @@ public class UsuarioController {
 	@Autowired
 	MedicoService medicoService;
 
-	// abrir pagina de dados pessoais de medicos
+	// abrir pagina de dados pessoais de medicos/admin/paciente
 	@GetMapping({ "/novo/cadastro/usuario" })
 	public String cadastroPorAdminParaAdminMedicoPaciente(Usuario usuario) {
 

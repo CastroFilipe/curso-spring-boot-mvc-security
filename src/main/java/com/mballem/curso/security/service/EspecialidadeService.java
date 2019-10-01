@@ -38,7 +38,7 @@ public class EspecialidadeService {
 		
 		Page<?> page = datatables.getSearch().isEmpty() 
 				? especialidadeRepository.findAll(datatables.getPageable()) 
-				: especialidadeRepository.findAllByTitulo(datatables.getSearch(), datatables.getPageable());
+				: especialidadeRepository.findAllByTitulo(datatables.getSearch(), datatables.getPageable());//findAll. getSerch usará o conteúdo digitado no campo de pesquisa presente no formulário HTML da view.
 		return datatables.getResponse(page);
 	}
 
