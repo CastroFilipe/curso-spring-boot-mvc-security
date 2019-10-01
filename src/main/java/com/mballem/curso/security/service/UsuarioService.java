@@ -2,6 +2,7 @@ package com.mballem.curso.security.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -64,8 +65,12 @@ public class UsuarioService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		//faz a consulta no banco de dados pelo username
-		Usuario usuario = buscarPorEmail(username);
+		/*
+		 * faz a consulta no banco de dados pelo username e o usuario deverá estar ativo(uma das regras de negócio do sistema).
+		 * A mensagem Usuario não encontrado nunca será exibida pois em caso de erro, o método .and().failureUrl("/login-error") presente na classe de configuração
+		 * será executado, exibindo a página de erro e nunca a mensagem.
+		 * */
+		Usuario usuario = buscarPorEmailEAtivo(username).orElseThrow(() -> new UsernameNotFoundException("Usuario não encontrado "+ username));
 		
 		//
 		return new User(// User é uma classe do Spring que implementa UserDetails. parametros do construtor: Email, senha, array de perfis
@@ -158,6 +163,15 @@ public class UsuarioService implements UserDetailsService {
 		usuario.setSenha(crypt);
 		usuario.addPerfil(PerfilTipo.PACIENTE);
 		usuarioRepository.save(usuario);
+	}
+	
+	/**
+	 * Busca um usuário por email & ativo = true.
+	 * Na aplicação apenas usuários ativos poderão fazer login.
+	 * */
+	@Transactional(readOnly = true)
+	public Optional<Usuario> buscarPorEmailEAtivo(String email){
+		return usuarioRepository.findByEmailAndAtivo(email);
 	}
 
 }
