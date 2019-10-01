@@ -216,14 +216,14 @@ public class UsuarioController {
     
     //retorna a página de cadastro de um novo paciente.
     @GetMapping("/novo/cadastro")
-    public String novoCadastro() {
+    public String novoCadastro(Usuario usuario) {
     	
     	return "cadastrar-se";
     }
     
     //Página de resposta em caso de sucesso do cadastro realizado
     @GetMapping("/cadastro/realizado")
-    public String novoRealizado() {
+    public String cadastroRealizado() {
     	
     	return "fragments/mensagem";
     }
