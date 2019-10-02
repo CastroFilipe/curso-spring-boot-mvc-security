@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<title>Clínica Spring Security</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="clínica médica com agendamento de consultas online" />
+<meta name="author" content="ballem" />
+<style>
+a:link, a:visited {
+  background-color: MediumSeaGreen;
+  border: 2px solid;
+  border-radius: 5px;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: DodgerBlue;
+}
+</style>
+</head>
+<body style="margin: 0; padding: 0; ">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; padding: 40px 30px 40px 30px; font-family: Arial, Helvetica, sans-serif;">
+        <tr>
+            <td align="center" style="padding: 20px 0 10px 0;">
+                <img src="cid:logo" alt="http://localhost:8080/" style="display: block; margin-left: auto; margin-right: auto; width: 15%;" />
+            	<h1 style="font-weight: 200;">Clínica Spring Security</h1>
+				<p style="margin-bottom: 0;">Especialidades Médicas</p>
+			</td>
+        </tr>
+        <tr>
+         	<td align="center" bgcolor="MediumSeaGreen">
+                <h4 class="text-center" th:text="${titulo}"><strong>Bem vindo...</strong></h4>
+            	<p th:text="${texto}">Precisamos que confirme seu cadastro...</p>
+            	<p th:text="${verificador}"><strong>8050jk</strong></p>
+                <p class="text-center mb-0" th:if="${linkConfirmacao != null}">
+             		<a th:href="${linkConfirmacao}">Confirmação</a>
+            	</p>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="LightGray" style="padding: 10px 0px 10px 0px; text-align:center;">
+                <p style="margin-bottom: .25rem;">&copy; 2019 Clínica Spring Security. Todos os direitos reservados.</p>
+            </td>
+        </tr>
+    </table>  
+</body>
+</body>
+</html>

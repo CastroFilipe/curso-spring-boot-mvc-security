@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+
+import com.mballem.curso.security.service.EmailService;
 
 @SpringBootApplication
 public class DemoSecurityApplication implements CommandLineRunner{
@@ -17,18 +17,16 @@ public class DemoSecurityApplication implements CommandLineRunner{
 	}
 
 	@Autowired
-	JavaMailSender sender;
+	EmailService emailService;
 	
 	@Override
 	public void run(String... args) throws Exception {
 		
 		//para teste de envio de email
 		System.out.println("enviando email...");
-		SimpleMailMessage simple = new SimpleMailMessage();
-		simple.setTo("filipe.couto.10@gmail.com");
-		simple.setText("Prezado, envio este email como Teste");//corpo do email
-		simple.setSubject("URGENTE- teste de envio de email");//Título
-		sender.send(simple);
+		
+		emailService.enviarPedidoDeConfirmacaoCadastro("filipe.couto.10@gmail.com", "codFake123");
+		
 		System.out.println("email ENVIADO");
 	}
 }
