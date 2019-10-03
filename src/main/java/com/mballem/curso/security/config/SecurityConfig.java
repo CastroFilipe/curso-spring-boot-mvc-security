@@ -82,7 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.and()
 			.exceptionHandling()//captura exceções
 			.accessDeniedPage("/acesso-negado")//endpoint do controler que fará o tratamento da exceção capturada do tipo AccessDeniedException
-		;
+		
+		.and().rememberMe() //ativa a opção "lembrar senha" na tela de login. (válidade aproximada de 2 semanas)	
+			;
 		
 		//http.csrf().disable();//usar apenas em aplicações RESTFUL
 	}
