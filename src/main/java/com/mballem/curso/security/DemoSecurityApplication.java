@@ -22,11 +22,11 @@ public class DemoSecurityApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		//para teste de envio de email
-		System.out.println("enviando email...");
-		
-		emailService.enviarPedidoDeConfirmacaoCadastro("filipe.couto.10@gmail.com", "codFake123");
-		
-		System.out.println("email ENVIADO");
+//		//para teste de envio de email
+//		System.out.println("enviando email...");
+//		
+//		emailService.enviarPedidoDeConfirmacaoCadastro("filipe.couto.10@gmail.com", "codFake123");
+//		
+//		System.out.println("email ENVIADO");
 	}
 }

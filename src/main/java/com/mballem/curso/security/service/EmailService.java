@@ -21,7 +21,7 @@ public class EmailService {
 	private JavaMailSender mailSender;
 
 	/*
-	 * Engine template. permite usar o template email/confirmacao.html nas mensagens enviadas
+	 * Classe do pacote thymeleaf. Engine template que permite usar o template email/confirmacao.html nas mensagens enviadas
 	 * */
 	@Autowired
 	private SpringTemplateEngine template;
@@ -37,13 +37,15 @@ public class EmailService {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, "UTF-8");
 		
-		//usado para substituir os valores titulo, texto e linkConfirmacao no template thymeleaf email/confirmacao
+		//classe context do pacote thymeleaf. usada para substituir os valores titulo, texto e linkConfirmacao no template thymeleaf email/confirmacao
 		Context context = new Context();
 		context.setVariable("titulo", "Bem vindo a clínica Spring");
-		context.setVariable("texto", "clique aqui para confirmar");
-		context.setVariable("linkConfirmacao", "http://localhost:8090/u/confirmacao/cadastro?codigo="+codigo);//envia o link onde o usuário deverá clicar para confirmar o cadastro
+		context.setVariable("texto", "clique no link abaixo para confirmar");
+		context.setVariable("linkConfirmacao", "http://localhost:8090/u/confirmacao/cadastro?codigo="+codigo);//envia o link onde o usuário deverá clicar para confirmar o cadastro. 
 		
+		//os valores presentes na variável context serão usados no template email/confirmacao.html e todo o código html será atribuído a variável html
 		String html = template.process("email/confirmacao", context);
+		//System.out.println(html);
 		
 		//preparando o email
 		helper.setTo(destino);//destinatário
@@ -54,6 +56,6 @@ public class EmailService {
 		//adiciona o logo da clínica no template thymeleaf email/confirmacao.html
 		helper.addInline("logo", new ClassPathResource("static/image/spring-security.png"));//obs: deixar essa linha como última das configurações helper.
 		
-		mailSender.send(message);
+		mailSender.send(message);//enviar o email
 	}
 }

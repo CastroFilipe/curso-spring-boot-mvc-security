@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import com.mballem.curso.security.datatables.Datatables;
 import com.mballem.curso.security.datatables.DatatablesColunas;
@@ -43,6 +46,9 @@ public class UsuarioService implements UserDetailsService {
 	
 	@Autowired
 	private Datatables datatables;
+	
+	@Autowired
+	private EmailService emailService;
 
 	/**
 	 * Método que busca um usuario pelo email. O username de um Usuario é o email
@@ -157,12 +163,18 @@ public class UsuarioService implements UserDetailsService {
 		usuarioRepository.save(usuario);
 	}
 
+	/**
+	 * Método que salva um novo cadastro feito pelo usuário Paciente
+	 * @throws MessagingException 
+	 * */
 	@Transactional(readOnly = false)
-	public void salvarCadastroPaciente(Usuario usuario) {
+	public void salvarCadastroPaciente(Usuario usuario) throws MessagingException {
 		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
 		usuario.setSenha(crypt);
 		usuario.addPerfil(PerfilTipo.PACIENTE);
 		usuarioRepository.save(usuario);
+		
+		emailDeConfirmacaoDeCadastro(usuario.getEmail());
 	}
 	
 	/**
@@ -173,5 +185,41 @@ public class UsuarioService implements UserDetailsService {
 	public Optional<Usuario> buscarPorEmailEAtivo(String email){
 		return usuarioRepository.findByEmailAndAtivo(email);
 	}
+	
+	/**
+	 * Método que envia um eail de confirmação de cadastro. Será chamado após o método salvarCadastroPaciente()
+	 * 
+	 * @param email o email para enviar a confirmação
+	 * @throws MessagingException 
+	 * */
+	public void emailDeConfirmacaoDeCadastro(String email) throws MessagingException{
+		/*
+		 * transforma o email em um codigo base64 para evitar problemas de codificacao. Assim o email será enviado como parametro na url.
+		 * Quando o link for acessado pelo usuário, o email será confirmado pelo spring
+		 * 
+		 * */
+		String codigo = Base64Utils.encodeToString(email.getBytes());
+		
+		emailService.enviarPedidoDeConfirmacaoCadastro(email, codigo);
+	}
 
+	/**
+	 * Método de ativação de cadastro
+	 * 
+	 * @param codigo codigo do email do usuário informado em base64 no método emailDeConfirmacaoDeCadastro()
+	 * */
+	@Transactional(readOnly = false)
+	public void ativarCadastroPaciente(String codigo) {
+		/*converte o codigo base64 para o email original*/
+		String email = new String(Base64Utils.decodeFromString(codigo));
+		
+		//busca o usuário por email para verificar se o mesmo existe
+		Usuario usuario = buscarPorEmail(email);
+		
+		if(usuario.hasNotId()) {//se não possuir id, significa que o Usuario não foi encontrado na base de dados.
+			throw new AccessDeniedException("Não foi possivel confirmar seu cadastro. entre em contato com o suporte");
+		}
+		
+		usuario.setAtivo(true); //ativa o usuário
+	}
 }
