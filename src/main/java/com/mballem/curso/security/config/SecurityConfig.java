@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/", "/home").permitAll()//libera o acesso público a página /home
 		.antMatchers("/u/novo/cadastro", "/u/cadastro/realizado", "/u/cadastro/paciente/salvar").permitAll()//endipoints para o acesso a página e metodos de cadastro de novo usuario
 		.antMatchers("/u/confirmacao/cadastro").permitAll()//libera o endpoint, localizado na classe UsuarioController, reponsavel por receber requisições quando o Usuario clicar no email de confirmação de cadastro enviado.
+		.antMatchers("/u/p/**").permitAll()//libera as páginas de redefinição de senha e a página para pedir a redefiniçaõ de senha
 		
 		//acessos privados para perfil de ADMIN
 		.antMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(MEDICO,PACIENTE)

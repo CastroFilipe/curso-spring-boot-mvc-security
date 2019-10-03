@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -272,4 +273,38 @@ public class UsuarioController {
     	 
     	return "usuario/pedido-recuperar-senha";
     }
+    
+    // form de pedido de recuperar senha
+    @GetMapping("/p/recuperar/senha")
+    public String redefinirSenha(String email, ModelMap model) throws MessagingException {
+    	usuarioService.pedidoRedefinicaoDeSenha(email);
+    	model.addAttribute("sucesso", "Em instantes você reberá um e-mail para "
+    			+ "prosseguir com a redefinição de sua senha.");
+    	model.addAttribute("usuario", new Usuario(email));
+    	return "usuario/recuperar-senha";
+    }
+    
+    /**
+     * Salvar a nova senha após solicitar a recuperção da mesma.
+     * */
+    @PostMapping("/p/nova/senha")
+    public String confirmacaoDeRedefinicaoDeSenha(Usuario usuario, ModelMap model) {
+    	//busca necessária para confirmar se o código verificador digitado pelo usuario é o mesmo salvo na base de dados
+    	Usuario u = usuarioService.buscarPorEmail(usuario.getEmail());
+    	
+    	//faz o teste e compara se o cógido de verificação digitado é o mesmo da base de dados
+    	if (!usuario.getCodigoVerificador().equals(u.getCodigoVerificador())) {
+    		model.addAttribute("falha", "Código verificador não confere.");
+    		return "usuario/recuperar-senha";
+    	}
+    	
+    	//caso passe pelo teste, isso indica que o código de verificação confere. Assim os métodos abaixo serão executados
+    	u.setCodigoVerificador(null);
+    	usuarioService.alterarSenha(u, usuario.getSenha());
+    	model.addAttribute("alerta", "sucesso");
+    	model.addAttribute("titulo", "Senha redefinida!");
+    	model.addAttribute("texto", "Você já pode logar no sistema.");
+    	
+    	return "login";
+    } 
 }
