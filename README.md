@@ -8,8 +8,8 @@ O curso apresenta o desenvolvimento de um sistema gerenciador de consultas médi
 * **Duração Total**: 11,5 horas de vídeo 
 * **Carga Horária**: -  
 * **Principais tópicos abordados**: Spring boot, Spring Security, Criptografia de Senha com bcrypt, Thymeleaf Extras Security, Configuração de CORS, Criação de Perfis com diferentes permissões(Roles), serviço de e-mail via SMTP, serviço de confirmação de cadastro de E-mail, Serviço de redefinição de senha  
-* **Progresso**: :heavy_check_mark:  100% . Concluído em 3 out 2019. [Certificado de conclusão](https://www.udemy.com/certificate/UC-0UGZFCVX/)   
-* **Link para o curso**: [Clique aqui](https://www.udemy.com/course/spring-boot-mvc-com-spring-security/)
+* **Progresso**: :heavy_check_mark:  100% . Concluído em 3 out 2019. <a href="https://www.udemy.com/certificate/UC-0UGZFCVX/" target="_blank">Certificado de conclusão</a>  
+* **Link para o curso**: <a href="https://www.udemy.com/course/spring-boot-mvc-com-spring-security/" target="_blank">Clique aqui</a>
 
 ### Minhas considerações: ![Nota](https://img.shields.io/badge/Nota-5%2F5-e6e600)  
 :star::star::star::star::star:
