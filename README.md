@@ -1,4 +1,5 @@
 # Curso spring boot e spring MVC com spring security
+![Status concluído](https://img.shields.io/badge/STATUS-CONCLUÍDO-05a505?style=flat) 
 ![Progresso](https://img.shields.io/badge/PROGRESSO-100%25-brightgreen) 
 <a href="https://opensource.org/licenses/MIT" target="_blank"><img alt="GitHub license" src="https://img.shields.io/github/license/CastroFilipe/curso-spring-boot-mvc-com-spring-security"></a>  
 
@@ -22,10 +23,11 @@ O curso apresenta o desenvolvimento de um sistema gerenciador de consultas médi
 - <a href="https://www.thymeleaf.org/" target="_blank"><img src="https://img.shields.io/badge/THYMELEAF-TEMPLATE%20ENGINE-005f0f?style=flat-square" alt="thymeleaf"></a>  
 
 ### Informações sobre o curso:
-* **Duração Total**: 11,5 horas de vídeo 
-* **Carga Horária**: -  
-* **Principais tópicos abordados**: Spring boot, Spring Security, Criptografia de Senha com bcrypt, Thymeleaf Extras Security, Configuração de CORS, Criação de Perfis com diferentes permissões(Roles), serviço de e-mail via SMTP, serviço de confirmação de cadastro de E-mail, Serviço de redefinição de senha  
-* **Progresso**: :heavy_check_mark:  100% . Concluído em 3 out 2019. [Certificado de conclusão](https://www.udemy.com/certificate/UC-0UGZFCVX/)
+- **Duração Total**: 11,5 horas de vídeo 
+- **Carga Horária**: -  
+- **Principais tópicos abordados**: Spring boot, Spring Security, Criptografia de Senha com bcrypt, Thymeleaf Extras Security, Configuração de CORS, Criação de Perfis com diferentes permissões(Roles), serviço de e-mail via SMTP, serviço de confirmação de cadastro de E-mail, Serviço de redefinição de senha  
+- **Progresso**: 100%  
+- **Status**: :heavy_check_mark: Concluído em 3 out 2019. [Certificado de conclusão](https://www.udemy.com/certificate/UC-0UGZFCVX/)  
 * **Link para o curso**: [Clique aqui](https://www.udemy.com/course/spring-boot-mvc-com-spring-security/)
 
 ### Minhas considerações: ![Nota](https://img.shields.io/badge/NOTA-5%2F5-brightgreen)  
